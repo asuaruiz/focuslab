@@ -35,7 +35,7 @@ export default async function CasosDeEstudioPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-32 lg:px-12">
-      <SectionHeading eyebrow="Portafolio" title="El Arte Detrás del Lente" />
+      <SectionHeading as="h1" eyebrow="Portafolio" title="El Arte Detrás del Lente" />
 
       <p className="mx-auto mt-8 max-w-2xl text-center">
         Cada fotograma es una promesa. Cada corte es una decisión.

@@ -29,9 +29,46 @@ const config: Config = {
       maxWidth: {
         prose: "70ch",
       },
+      typography: ({ theme }: { theme: (path: string) => unknown }) => ({
+        invert: {
+          css: {
+            "--tw-prose-body": "rgba(255,255,255,0.8)",
+            "--tw-prose-headings": theme("colors.white"),
+            "--tw-prose-lead": "rgba(255,255,255,0.8)",
+            "--tw-prose-links": theme("colors.amber"),
+            "--tw-prose-bold": theme("colors.white"),
+            "--tw-prose-counters": theme("colors.amber"),
+            "--tw-prose-bullets": theme("colors.amber"),
+            "--tw-prose-hr": "rgba(255,255,255,0.1)",
+            "--tw-prose-quotes": theme("colors.gray.accent"),
+            "--tw-prose-quote-borders": theme("colors.amber"),
+            "--tw-prose-captions": theme("colors.gray.DEFAULT"),
+            "--tw-prose-code": theme("colors.white"),
+            "--tw-prose-pre-code": theme("colors.white"),
+            "--tw-prose-pre-bg": theme("colors.charcoal"),
+            "--tw-prose-th-borders": "rgba(255,255,255,0.2)",
+            "--tw-prose-td-borders": "rgba(255,255,255,0.1)",
+            maxWidth: "none",
+            a: {
+              textDecoration: "underline",
+              textUnderlineOffset: "2px",
+              fontWeight: "500",
+            },
+            "h2, h3, h4": {
+              fontFamily: "var(--font-montserrat), sans-serif",
+              fontWeight: "300",
+              textTransform: "uppercase",
+              letterSpacing: ".08em",
+            },
+            strong: {
+              fontWeight: "600",
+            },
+          },
+        },
+      }),
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };
 
 export default config;

@@ -49,7 +49,7 @@ const PRINCIPLES = [
 export default function FilosofiaPage() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-32 lg:px-12">
-      <SectionHeading eyebrow="Capítulo Uno" title="Cada Historia Merece Intención" />
+      <SectionHeading as="h1" eyebrow="Capítulo Uno" title="Cada Historia Merece Intención" />
 
       <div className="mt-16 space-y-8">
         <p>

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function ServiciosPage() {
   return (
     <div className="mx-auto max-w-6xl px-6 py-32 lg:px-12">
-      <SectionHeading eyebrow="Capítulo Siete" title="Disciplina con Imaginación" />
+      <SectionHeading as="h1" eyebrow="Capítulo Siete" title="Disciplina con Imaginación" />
 
       <p className="mx-auto mt-8 max-w-2xl text-center">
         Ofrecemos soluciones escalonadas para emprendedores, líderes

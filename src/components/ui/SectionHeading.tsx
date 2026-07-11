@@ -2,9 +2,12 @@ type SectionHeadingProps = {
   eyebrow?: string;
   title: string;
   quote?: string;
+  as?: "h1" | "h2";
 };
 
-export default function SectionHeading({ eyebrow, title, quote }: SectionHeadingProps) {
+export default function SectionHeading({ eyebrow, title, quote, as = "h2" }: SectionHeadingProps) {
+  const Heading = as;
+
   return (
     <div className="mx-auto max-w-3xl text-center">
       {eyebrow && (
@@ -12,7 +15,7 @@ export default function SectionHeading({ eyebrow, title, quote }: SectionHeading
           {eyebrow}
         </span>
       )}
-      <h2 className="text-3xl md:text-4xl">{title}</h2>
+      <Heading className="text-3xl md:text-4xl">{title}</Heading>
       {quote && <p className="accent-quote mt-6 text-lg">&ldquo;{quote}&rdquo;</p>}
     </div>
   );

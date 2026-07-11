@@ -23,11 +23,20 @@ export default function Footer() {
           </span>
 
           <nav className="flex flex-wrap gap-6">
+            <Link href="/filosofia" className="text-xs tracking-widest uppercase text-gray hover:text-white">
+              Filosofía
+            </Link>
             <Link href="/servicios" className="text-xs tracking-widest uppercase text-gray hover:text-white">
               Servicios
             </Link>
             <Link href="/casos-de-estudio" className="text-xs tracking-widest uppercase text-gray hover:text-white">
               Casos de Estudio
+            </Link>
+            <Link href="/experiencia-clientes" className="text-xs tracking-widest uppercase text-gray hover:text-white">
+              Experiencia
+            </Link>
+            <Link href="/blog" className="text-xs tracking-widest uppercase text-gray hover:text-white">
+              Blog
             </Link>
             <Link href="/contacto" className="text-xs tracking-widest uppercase text-gray hover:text-white">
               Contacto

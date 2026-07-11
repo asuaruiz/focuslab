@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import Image from "next/image";
 import SectionHeading from "@/components/ui/SectionHeading";
+import BlogPostsView from "@/components/blog/BlogPostsView";
 import { createClient } from "@/lib/supabase/server";
 import type { BlogPost } from "@/lib/types";
 
@@ -25,26 +24,10 @@ export default async function BlogPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-32 lg:px-12">
-      <SectionHeading eyebrow="Ideas" title="Blog" />
+      <SectionHeading as="h1" eyebrow="Ideas" title="Blog" />
 
-      <div className="mt-16 space-y-16">
-        {(posts ?? []).map((post) => (
-          <Link key={post.id} href={`/blog/${post.slug}`} className="group flex gap-8">
-            <div className="relative h-32 w-48 flex-shrink-0 overflow-hidden bg-charcoal">
-              <Image
-                src={post.cover_image_url}
-                alt={`Imagen de portada del artículo ${post.title}`}
-                fill
-                sizes="192px"
-                className="object-cover transition-opacity group-hover:opacity-80"
-              />
-            </div>
-            <div>
-              <h3 className="text-xl">{post.title}</h3>
-              {post.excerpt && <p className="mt-3 text-white/70">{post.excerpt}</p>}
-            </div>
-          </Link>
-        ))}
+      <div className="mt-16">
+        <BlogPostsView posts={posts ?? []} />
       </div>
     </div>
   );

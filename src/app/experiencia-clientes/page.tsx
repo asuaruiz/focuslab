@@ -58,6 +58,7 @@ export default async function ExperienciaClientesPage() {
   return (
     <div className="mx-auto max-w-5xl px-6 py-32 lg:px-12">
       <SectionHeading
+        as="h1"
         eyebrow="Capítulo Seis"
         title="El Lado Humano del Proceso"
         quote="People may forget the deliverables. They rarely forget how you made them feel."
