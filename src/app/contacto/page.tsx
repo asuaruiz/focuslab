@@ -26,7 +26,7 @@ export default function ContactoPage({
 }) {
   return (
     <div className="mx-auto max-w-2xl px-6 py-32 lg:px-12">
-      <SectionHeading eyebrow="Descubrimiento" title="Donde la Visión se Encuentra con la Artesanía" />
+      <SectionHeading as="h1" eyebrow="Descubrimiento" title="Donde la Visión se Encuentra con la Artesanía" />
 
       <p className="mt-8 text-center text-white/70">
         Si buscas velocidad sobre sustancia, o ruido sobre propósito, no somos

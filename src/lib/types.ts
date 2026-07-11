@@ -16,6 +16,7 @@ export type BlogPost = {
   excerpt: string | null;
   cover_image_url: string;
   published_at: string | null;
+  author: string;
 };
 
 export type CaseStudy = {
