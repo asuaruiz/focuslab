@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-black text-white font-body antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-heading uppercase tracking-widest font-light;
+  }
+
+  p {
+    @apply font-body font-normal leading-body text-white/90;
+  }
+}
+
+@layer components {
+  /* Italic serif accent used for quotes and chapter labels — never white */
+  .accent-quote {
+    @apply font-accent italic text-gray;
+  }
+}
