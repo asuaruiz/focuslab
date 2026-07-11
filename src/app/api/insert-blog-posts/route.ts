@@ -5,9 +5,23 @@ import path from "path";
 export async function POST() {
   try {
     // Use service role key to bypass RLS
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (!serviceRoleKey) {
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: "SUPABASE_SERVICE_ROLE_KEY not configured",
+        }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
     const supabase = createAdminClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1wZXd3cmllbnBtcGFnY29kaHhuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NDQ5ODU4MCwiZXhwIjoyMDcwMDc0NTgwfQ.t5Ba-zySijOx2PPHFJ0pozLimByUw37H9PpG4uga_w4"
+      serviceRoleKey
     );
 
     // Read blog data from JSON file
