@@ -14,7 +14,7 @@
   h1,
   h2,
   h3 {
-    @apply font-heading uppercase tracking-widest font-light;
+    @apply font-heading uppercase tracking-wide font-light md:tracking-widest;
   }
 
   p {
