@@ -27,7 +27,17 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://focuslabsmediagroup.com";
+const DEFAULT_SITE_URL = "https://focuslabsmediagroup.com";
+
+function resolveSiteUrl(): string {
+  try {
+    return new URL(process.env.NEXT_PUBLIC_SITE_URL || DEFAULT_SITE_URL).href;
+  } catch {
+    return DEFAULT_SITE_URL;
+  }
+}
+
+const siteUrl = resolveSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
