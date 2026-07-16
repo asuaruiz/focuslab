@@ -116,6 +116,7 @@ export default function ContactoPage({
             id="project_details"
             name="project_details"
             rows={5}
+            maxLength={5000}
             className="mt-2 w-full border border-white/20 bg-transparent px-4 py-3 text-white outline-none focus:border-amber"
           />
         </div>
