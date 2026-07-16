@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import DOMPurify from "isomorphic-dompurify";
 import { createClient } from "@/lib/supabase/server";
 import type { BlogPost } from "@/lib/types";
 import { getReadingTime } from "@/lib/reading-time";
@@ -85,7 +86,7 @@ export default async function BlogPostPage({ params }: Props) {
 
       <div
         className="prose prose-invert prose-lg mt-12 max-w-prose text-white/80"
-        dangerouslySetInnerHTML={{ __html: post.content }}
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}
       />
 
       <RelatedServiceCTA />

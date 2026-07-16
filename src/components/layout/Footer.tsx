@@ -43,6 +43,17 @@ export default function Footer() {
             </Link>
           </nav>
         </div>
+
+        <p className="mt-8 inline-flex items-center gap-1.5 text-xs text-gray">
+          Made with <span aria-hidden="true" className="text-amber">♥</span> by{" "}
+          <a
+            href="https://andflow.cl"
+            rel="dofollow"
+            className="font-semibold text-white/90 underline-offset-4 hover:text-amber hover:underline"
+          >
+            andflow.cl
+          </a>
+        </p>
       </div>
     </footer>
   );
