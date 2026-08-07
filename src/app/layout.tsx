@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppFAB from "@/components/ui/WhatsAppFAB";
+import { getSiteUrl } from "@/lib/site";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -27,17 +28,7 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
-const DEFAULT_SITE_URL = "https://focuslabsmediagroup.com";
-
-function resolveSiteUrl(): string {
-  try {
-    return new URL(process.env.NEXT_PUBLIC_SITE_URL || DEFAULT_SITE_URL).href;
-  } catch {
-    return DEFAULT_SITE_URL;
-  }
-}
-
-const siteUrl = resolveSiteUrl();
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
