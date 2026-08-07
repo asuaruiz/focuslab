@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { services } from "@/lib/services";
+import { getSiteUrl } from "@/lib/site";
 import type { BlogPost, CaseStudy } from "@/lib/types";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://focuslabsmediagroup.com";
+const siteUrl = getSiteUrl();
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabase = createClient();
