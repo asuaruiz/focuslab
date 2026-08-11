@@ -6,16 +6,17 @@ import Image from "next/image";
 import type { BlogPost } from "@/lib/types";
 import { getReadingTime } from "@/lib/reading-time";
 import { formatPublishedDate } from "@/lib/format-date";
+import type { Locale } from "@/lib/i18n";
 
 type ViewMode = "list" | "grid";
 
-function PostMeta({ post }: { post: BlogPost }) {
-  const date = formatPublishedDate(post.published_at);
+function PostMeta({ post, locale }: { post: BlogPost; locale: Locale }) {
+  const date = formatPublishedDate(post.published_at, locale);
   const minutes = getReadingTime(post.content);
 
   return (
     <p className="mt-2 flex flex-wrap items-center gap-x-2 text-xs text-white/50">
-      <span>Por {post.author}</span>
+      <span>{locale === "en" ? "By" : "Por"} {post.author}</span>
       {date && (
         <>
           <span aria-hidden="true">·</span>
@@ -23,12 +24,12 @@ function PostMeta({ post }: { post: BlogPost }) {
         </>
       )}
       <span aria-hidden="true">·</span>
-      <span>{minutes} min de lectura</span>
+      <span>{minutes} min {locale === "en" ? "read" : "de lectura"}</span>
     </p>
   );
 }
 
-function ListItem({ post }: { post: BlogPost }) {
+function ListItem({ post, locale }: { post: BlogPost; locale: Locale }) {
   return (
     <Link
       href={`/blog/${post.slug}`}
@@ -40,7 +41,7 @@ function ListItem({ post }: { post: BlogPost }) {
         {post.cover_image_url && (
           <Image
             src={post.cover_image_url}
-            alt={`Imagen de portada del artículo ${post.title}`}
+            alt={locale === "en" ? `Cover image for ${post.title}` : `Imagen de portada del artículo ${post.title}`}
             fill
             sizes="(min-width: 640px) 192px, 100vw"
             className="object-cover transition-opacity group-hover:opacity-80"
@@ -51,7 +52,7 @@ function ListItem({ post }: { post: BlogPost }) {
         <h3 className="text-xl normal-case tracking-normal font-normal text-white group-hover:text-amber">
           {post.title}
         </h3>
-        <PostMeta post={post} />
+        <PostMeta post={post} locale={locale} />
         {post.excerpt && (
           <p className="mt-3 line-clamp-2 text-sm text-white/70">{post.excerpt}</p>
         )}
@@ -60,14 +61,14 @@ function ListItem({ post }: { post: BlogPost }) {
   );
 }
 
-function GridItem({ post }: { post: BlogPost }) {
+function GridItem({ post, locale }: { post: BlogPost; locale: Locale }) {
   return (
     <Link href={`/blog/${post.slug}`} className="group flex flex-col">
       <div className="relative aspect-video w-full overflow-hidden bg-charcoal">
         {post.cover_image_url && (
           <Image
             src={post.cover_image_url}
-            alt={`Imagen de portada del artículo ${post.title}`}
+            alt={locale === "en" ? `Cover image for ${post.title}` : `Imagen de portada del artículo ${post.title}`}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             className="object-cover transition-opacity group-hover:opacity-80"
@@ -78,7 +79,7 @@ function GridItem({ post }: { post: BlogPost }) {
         <h3 className="text-lg normal-case tracking-normal font-normal text-white group-hover:text-amber">
           {post.title}
         </h3>
-        <PostMeta post={post} />
+        <PostMeta post={post} locale={locale} />
         {post.excerpt && (
           <p className="mt-3 line-clamp-2 text-sm text-white/70">{post.excerpt}</p>
         )}
@@ -87,18 +88,18 @@ function GridItem({ post }: { post: BlogPost }) {
   );
 }
 
-function ViewToggle({ view, onChange }: { view: ViewMode; onChange: (view: ViewMode) => void }) {
+function ViewToggle({ view, onChange, locale }: { view: ViewMode; onChange: (view: ViewMode) => void; locale: Locale }) {
   const base =
     "flex h-10 w-10 items-center justify-center border transition-colors";
   const active = "border-amber text-amber";
   const inactive = "border-white/20 text-white/50 hover:border-white/40 hover:text-white";
 
   return (
-    <div className="flex items-center gap-2" role="group" aria-label="Vista del listado">
+    <div className="flex items-center gap-2" role="group" aria-label={locale === "en" ? "Post view" : "Vista del listado"}>
       <button
         type="button"
         aria-pressed={view === "list"}
-        aria-label="Vista de lista"
+        aria-label={locale === "en" ? "List view" : "Vista de lista"}
         onClick={() => onChange("list")}
         className={`${base} ${view === "list" ? active : inactive}`}
       >
@@ -109,7 +110,7 @@ function ViewToggle({ view, onChange }: { view: ViewMode; onChange: (view: ViewM
       <button
         type="button"
         aria-pressed={view === "grid"}
-        aria-label="Vista de grilla"
+        aria-label={locale === "en" ? "Grid view" : "Vista de grilla"}
         onClick={() => onChange("grid")}
         className={`${base} ${view === "grid" ? active : inactive}`}
       >
@@ -124,31 +125,31 @@ function ViewToggle({ view, onChange }: { view: ViewMode; onChange: (view: ViewM
   );
 }
 
-export default function BlogPostsView({ posts }: { posts: BlogPost[] }) {
+export default function BlogPostsView({ posts, locale }: { posts: BlogPost[]; locale: Locale }) {
   const [view, setView] = useState<ViewMode>("list");
 
   return (
     <div>
       <div className="flex justify-end">
-        <ViewToggle view={view} onChange={setView} />
+        <ViewToggle view={view} onChange={setView} locale={locale} />
       </div>
 
       {posts.length === 0 && (
         <p className="mt-16 text-center text-white/60">
-          Pronto publicaremos nuevos artículos.
+          {locale === "en" ? "New articles are coming soon." : "Pronto publicaremos nuevos artículos."}
         </p>
       )}
 
       {view === "list" ? (
         <div className="mt-10 space-y-10">
           {posts.map((post) => (
-            <ListItem key={post.id} post={post} />
+            <ListItem key={post.id} post={post} locale={locale} />
           ))}
         </div>
       ) : (
         <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
-            <GridItem key={post.id} post={post} />
+            <GridItem key={post.id} post={post} locale={locale} />
           ))}
         </div>
       )}

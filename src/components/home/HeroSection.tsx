@@ -1,10 +1,12 @@
 import Button from "@/components/ui/Button";
+import type { Locale } from "@/lib/i18n";
 
 // Public Supabase Storage URL, e.g. Storage bucket "media" > "hero-reel.mp4"
 const HERO_VIDEO_URL = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/media/hero-reel.mp4`;
 const HERO_POSTER_URL = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/media/hero-poster.jpg`;
 
-export default function HeroSection() {
+export default function HeroSection({ locale }: { locale: Locale }) {
+  const en = locale === "en";
   return (
     <section className="relative flex h-screen min-h-[720px] w-full items-center justify-center overflow-hidden bg-black">
       {/* Background video — cinematic, muted, looping */}
@@ -30,19 +32,17 @@ export default function HeroSection() {
         </span>
 
         <h1 className="text-4xl leading-tight md:text-6xl">
-          Transformamos la imaginación en experiencias significativas
+          {en ? "We transform imagination into meaningful experiences" : "Transformamos la imaginación en experiencias significativas"}
         </h1>
 
         <p className="max-w-2xl text-base text-white/80 md:text-lg">
-          Fotografía, cine y estrategia de marca para quienes no buscan un
-          videógrafo casual, sino un activo estratégico para escalar su
-          influencia.
+          {en ? "Photography, film, and brand strategy for those seeking more than a casual videographer: a strategic asset built to scale their influence." : "Fotografía, cine y estrategia de marca para quienes no buscan un videógrafo casual, sino un activo estratégico para escalar su influencia."}
         </p>
 
         <div className="mt-4 flex flex-col gap-4 sm:flex-row">
-          <Button href="/contacto">Iniciar un Proyecto</Button>
+          <Button href="/contacto">{en ? "Start a Project" : "Iniciar un Proyecto"}</Button>
           <Button href="/casos-de-estudio" variant="outline">
-            Ver Casos de Estudio
+            {en ? "View Case Studies" : "Ver Casos de Estudio"}
           </Button>
         </div>
       </div>

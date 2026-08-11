@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import SectionHeading from "@/components/ui/SectionHeading";
-import { services } from "@/lib/services";
+import { getLocalizedServices } from "@/lib/services";
+import { getLocale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Servicios — Producción Audiovisual y Estrategia de Marca",
@@ -11,13 +12,15 @@ export const metadata: Metadata = {
 };
 
 export default function ServiciosPage() {
+  const locale = getLocale();
+  const en = locale === "en";
+  const services = getLocalizedServices(locale);
   return (
     <div className="mx-auto max-w-6xl px-6 py-32 lg:px-12">
-      <SectionHeading as="h1" eyebrow="Capítulo Siete" title="Disciplina con Imaginación" />
+      <SectionHeading as="h1" eyebrow={en ? "Chapter Seven" : "Capítulo Siete"} title={en ? "Discipline with Imagination" : "Disciplina con Imaginación"} />
 
       <p className="mx-auto mt-8 max-w-2xl text-center">
-        Ofrecemos soluciones escalonadas para emprendedores, líderes
-        corporativos y marcas establecidas.
+        {en ? "We offer tiered solutions for entrepreneurs, corporate leaders, and established brands." : "Ofrecemos soluciones escalonadas para emprendedores, líderes corporativos y marcas establecidas."}
       </p>
 
       <div className="mt-16 space-y-12">
@@ -44,7 +47,7 @@ export default function ServiciosPage() {
               )}
 
               <div className="mt-6 space-y-2 border-t border-white/10 pt-4">
-                <p className="text-xs text-gray uppercase tracking-wider">Incluye:</p>
+                <p className="text-xs text-gray uppercase tracking-wider">{en ? "Includes:" : "Incluye:"}</p>
                 <ul className="grid gap-1 sm:grid-cols-2">
                   {service.includes.map((item, idx) => (
                     <li key={idx} className="text-xs text-white/60">

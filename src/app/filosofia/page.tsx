@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import SectionHeading from "@/components/ui/SectionHeading";
+import { getLocale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Filosofía — Por Qué Existimos",
@@ -46,53 +47,54 @@ const PRINCIPLES = [
   },
 ];
 
+const PRINCIPLES_EN = [
+  { title: "Intentionality", description: "Everything begins with purpose. Intention creates clarity, and clarity creates trust.", expanded: "We do not produce content because it is trending or because a brand feels it must be on video. Every project has a strategic reason: we define what you want to communicate, who needs to hear it, and the change in perception you seek." },
+  { title: "Human Connection", description: "People will always matter more than the project. The camera is never the most important thing in the room.", expanded: "Behind every project is a person taking a risk, investing, and trusting us with something meaningful. That is why our sets feel calm rather than frantic, why we listen more than we speak, and why clients feel cared for." },
+  { title: "Discipline", description: "Excellence is not an accident; it is built through preparation and consistency.", expanded: "True creative freedom comes from a plan solid enough to allow flexibility. We test every piece of equipment, plan transitions, and clarify roles so the team has the mental space to capture genuine moments and respond to the unexpected." },
+  { title: "Humility", description: "We remain curious and listen carefully. Confidence speaks; humility listens.", expanded: "You are the expert in your industry, so we arrive with questions. That humility allows us to act as true consultants, not producers who merely execute a brief." },
+  { title: "An Extraordinary Experience", description: "We deliver experiences every client can feel proud of and confident in.", expanded: "A film is a deliverable; an experience is memorable. Clients leave with extraordinary work and the memory of a calm process, a team that understood their vision, and a collaboration in which they felt heard." },
+];
+
 export default function FilosofiaPage() {
+  const en = getLocale() === "en";
+  const principles = en ? PRINCIPLES_EN : PRINCIPLES;
   return (
     <div className="mx-auto max-w-3xl px-6 py-32 lg:px-12">
-      <SectionHeading as="h1" eyebrow="Capítulo Uno" title="Cada Historia Merece Intención" />
+      <SectionHeading as="h1" eyebrow={en ? "Chapter One" : "Capítulo Uno"} title={en ? "Every Story Deserves Intention" : "Cada Historia Merece Intención"} />
 
       <div className="mt-16 space-y-8">
         <p>
-          Creemos que cada persona, marca e idea tiene el potencial de dejar
-          un impacto duradero. Nuestro propósito es transformar la
-          imaginación en algo que la gente pueda ver, escuchar y sentir. No
-          solo producimos contenido; damos a las ideas un lugar para existir.
+          {en ? "We believe every person, brand, and idea has the potential to leave a lasting impact. Our purpose is to transform imagination into something people can see, hear, and feel. We do not merely produce content; we give ideas a place to exist." : "Creemos que cada persona, marca e idea tiene el potencial de dejar un impacto duradero. Nuestro propósito es transformar la imaginación en algo que la gente pueda ver, escuchar y sentir. No solo producimos contenido; damos a las ideas un lugar para existir."}
         </p>
       </div>
 
       <div className="mt-24 grid gap-16 border-t border-white/10 pt-16 md:grid-cols-2">
         <div>
-          <h2 className="text-sm text-amber">Nuestra Misión</h2>
+          <h2 className="text-sm text-amber">{en ? "Our Mission" : "Nuestra Misión"}</h2>
           <p className="mt-2 text-xs tracking-widest uppercase text-gray">
-            Lo Que Hacemos Cada Día
+            {en ? "What We Do Every Day" : "Lo Que Hacemos Cada Día"}
           </p>
           <p className="mt-6 text-white/80">
-            Crear experiencias visuales que hagan que las personas se sientan
-            vistas, valoradas y extraordinarias. Combinamos creatividad,
-            estrategia y disciplina para producir películas y fotografías con
-            claridad y emoción.
+            {en ? "To create visual experiences that make people feel seen, valued, and extraordinary. We combine creativity, strategy, and discipline to produce films and photographs with clarity and emotion." : "Crear experiencias visuales que hagan que las personas se sientan vistas, valoradas y extraordinarias. Combinamos creatividad, estrategia y disciplina para producir películas y fotografías con claridad y emoción."}
           </p>
         </div>
 
         <div>
-          <h2 className="text-sm text-amber">Nuestra Visión</h2>
+          <h2 className="text-sm text-amber">{en ? "Our Vision" : "Nuestra Visión"}</h2>
           <p className="mt-2 text-xs tracking-widest uppercase text-gray">
-            Hacia Dónde Vamos
+            {en ? "Where We Are Going" : "Hacia Dónde Vamos"}
           </p>
           <p className="mt-6 text-white/80">
-            Ser reconocidos no solo por la calidad de nuestro trabajo, sino
-            por cómo se sienten las personas después de trabajar con
-            nosotros. Aspiramos a ser el hogar de ideas significativas donde
-            la imaginación sea respetada.
+            {en ? "To be recognized not only for the quality of our work, but for how people feel after working with us. We aspire to be a home for meaningful ideas where imagination is respected." : "Ser reconocidos no solo por la calidad de nuestro trabajo, sino por cómo se sienten las personas después de trabajar con nosotros. Aspiramos a ser el hogar de ideas significativas donde la imaginación sea respetada."}
           </p>
         </div>
       </div>
 
       <div className="mt-24 border-t border-white/10 pt-16">
-        <h2 className="text-center text-3xl">Los Principios Que Nos Guían</h2>
+        <h2 className="text-center text-3xl">{en ? "The Principles That Guide Us" : "Los Principios Que Nos Guían"}</h2>
 
         <div className="mt-12 space-y-8">
-          {PRINCIPLES.map((principle) => (
+          {principles.map((principle) => (
             <div key={principle.title} className="border-b border-white/10 pb-8 last:border-b-0">
               <h3 className="text-lg text-amber">{principle.title}</h3>
               <p className="mt-3 text-sm text-white/70">{principle.description}</p>
