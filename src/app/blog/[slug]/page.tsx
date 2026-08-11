@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import type { BlogPost } from "@/lib/types";
 import { getReadingTime } from "@/lib/reading-time";
 import { formatPublishedDate } from "@/lib/format-date";
+import { toFaqPageJsonLd } from "@/lib/indexal/faq";
 import RelatedServiceCTA from "@/components/blog/RelatedServiceCTA";
 
 type Props = { params: { slug: string } };
@@ -45,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       type: "article",
       publishedTime: post.published_at ?? undefined,
-      images: [{ url: post.cover_image_url }],
+      images: post.cover_image_url ? [{ url: post.cover_image_url }] : undefined,
     },
   };
 }
@@ -56,6 +57,7 @@ export default async function BlogPostPage({ params }: Props) {
 
   const date = formatPublishedDate(post.published_at);
   const minutes = getReadingTime(post.content);
+  const faqJsonLd = toFaqPageJsonLd(post.faq_schema);
 
   return (
     <article className="mx-auto max-w-3xl px-6 py-32 lg:px-12">
@@ -73,21 +75,40 @@ export default async function BlogPostPage({ params }: Props) {
         <span>{minutes} min de lectura</span>
       </p>
 
-      <div className="relative mt-12 aspect-video w-full overflow-hidden bg-charcoal">
-        <Image
-          src={post.cover_image_url}
-          alt={`Imagen de portada del artículo ${post.title}`}
-          fill
-          sizes="(min-width: 768px) 768px, 100vw"
-          className="object-cover"
-          priority
-        />
-      </div>
+      {/* Indexal marks the hero image as best-effort, so it can be missing;
+          the article still publishes, just without a cover. */}
+      {post.cover_image_url && (
+        <div className="relative mt-12 aspect-video w-full overflow-hidden bg-charcoal">
+          <Image
+            src={post.cover_image_url}
+            alt={`Imagen de portada del artículo ${post.title}`}
+            fill
+            sizes="(min-width: 768px) 768px, 100vw"
+            className="object-cover"
+            priority
+          />
+        </div>
+      )}
 
       <div
         className="prose prose-invert prose-lg mt-12 max-w-prose text-white/80"
         dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}
       />
+
+      {post.author_bio && (
+        <div className="mt-12 border-t border-white/10 pt-6">
+          <p className="text-sm text-white/50">
+            <span className="text-white/80">{post.author}</span> — {post.author_bio}
+          </p>
+        </div>
+      )}
+
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
 
       <RelatedServiceCTA />
     </article>

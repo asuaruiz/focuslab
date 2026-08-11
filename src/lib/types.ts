@@ -14,9 +14,17 @@ export type BlogPost = {
   slug: string;
   content: string;
   excerpt: string | null;
-  cover_image_url: string;
+  // Null for posts published by Indexal with no hero image — see
+  // supabase/sql/04_indexal_integration.sql.
+  cover_image_url: string | null;
   published_at: string | null;
   author: string;
+  author_bio: string | null;
+  // Set only on posts that arrived through the Indexal webhook.
+  indexal_id: string | null;
+  language_code: string | null;
+  translation_group_id: string | null;
+  faq_schema: unknown[] | null;
 };
 
 export type CaseStudy = {

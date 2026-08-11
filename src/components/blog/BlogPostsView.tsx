@@ -34,14 +34,18 @@ function ListItem({ post }: { post: BlogPost }) {
       href={`/blog/${post.slug}`}
       className="group flex flex-col gap-6 border-b border-white/10 pb-10 sm:flex-row"
     >
+      {/* Posts published through Indexal can arrive without a cover; the
+          charcoal block stands in so the layout keeps its rhythm. */}
       <div className="relative h-48 w-full flex-shrink-0 overflow-hidden bg-charcoal sm:h-32 sm:w-48">
-        <Image
-          src={post.cover_image_url}
-          alt={`Imagen de portada del artículo ${post.title}`}
-          fill
-          sizes="(min-width: 640px) 192px, 100vw"
-          className="object-cover transition-opacity group-hover:opacity-80"
-        />
+        {post.cover_image_url && (
+          <Image
+            src={post.cover_image_url}
+            alt={`Imagen de portada del artículo ${post.title}`}
+            fill
+            sizes="(min-width: 640px) 192px, 100vw"
+            className="object-cover transition-opacity group-hover:opacity-80"
+          />
+        )}
       </div>
       <div className="min-w-0 flex-1">
         <h3 className="text-xl normal-case tracking-normal font-normal text-white group-hover:text-amber">
@@ -60,13 +64,15 @@ function GridItem({ post }: { post: BlogPost }) {
   return (
     <Link href={`/blog/${post.slug}`} className="group flex flex-col">
       <div className="relative aspect-video w-full overflow-hidden bg-charcoal">
-        <Image
-          src={post.cover_image_url}
-          alt={`Imagen de portada del artículo ${post.title}`}
-          fill
-          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover transition-opacity group-hover:opacity-80"
-        />
+        {post.cover_image_url && (
+          <Image
+            src={post.cover_image_url}
+            alt={`Imagen de portada del artículo ${post.title}`}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover transition-opacity group-hover:opacity-80"
+          />
+        )}
       </div>
       <div className="mt-4">
         <h3 className="text-lg normal-case tracking-normal font-normal text-white group-hover:text-amber">
