@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Locale } from "@/lib/i18n";
 
-export default function Footer() {
+export default function Footer({ locale }: { locale: Locale }) {
+  const en = locale === "en";
   return (
     <footer className="border-t border-white/10 bg-black">
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-12">
@@ -14,7 +16,7 @@ export default function Footer() {
         />
 
         <p className="accent-quote mt-8 text-lg">
-          &ldquo;Transformamos la imaginación en experiencias significativas.&rdquo;
+          &ldquo;{en ? "We transform imagination into meaningful experiences." : "Transformamos la imaginación en experiencias significativas."}&rdquo;
         </p>
 
         <div className="mt-10 flex flex-col gap-6 border-t border-white/10 pt-8 md:flex-row md:items-center md:justify-between">
@@ -24,22 +26,22 @@ export default function Footer() {
 
           <nav className="flex flex-wrap gap-6">
             <Link href="/filosofia" className="text-xs tracking-widest uppercase text-gray hover:text-white">
-              Filosofía
+              {en ? "Philosophy" : "Filosofía"}
             </Link>
             <Link href="/servicios" className="text-xs tracking-widest uppercase text-gray hover:text-white">
-              Servicios
+              {en ? "Services" : "Servicios"}
             </Link>
             <Link href="/casos-de-estudio" className="text-xs tracking-widest uppercase text-gray hover:text-white">
-              Casos de Estudio
+              {en ? "Case Studies" : "Casos de Estudio"}
             </Link>
             <Link href="/experiencia-clientes" className="text-xs tracking-widest uppercase text-gray hover:text-white">
-              Experiencia
+              {en ? "Experience" : "Experiencia"}
             </Link>
             <Link href="/blog" className="text-xs tracking-widest uppercase text-gray hover:text-white">
               Blog
             </Link>
             <Link href="/contacto" className="text-xs tracking-widest uppercase text-gray hover:text-white">
-              Contacto
+              {en ? "Contact" : "Contacto"}
             </Link>
           </nav>
         </div>

@@ -13,6 +13,11 @@ const PROJECT_TYPES = new Set([
   "Podcast",
   "Fotografía",
   "Otro",
+  "Brand Strategy",
+  "Event",
+  "Commercial Production",
+  "Photography",
+  "Other",
 ]);
 
 export async function submitLead(formData: FormData) {

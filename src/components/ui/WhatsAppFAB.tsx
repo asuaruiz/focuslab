@@ -1,6 +1,8 @@
+import type { Locale } from "@/lib/i18n";
+
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "";
 
-export default function WhatsAppFAB() {
+export default function WhatsAppFAB({ locale }: { locale: Locale }) {
   const href = WHATSAPP_NUMBER
     ? `https://wa.me/${WHATSAPP_NUMBER}`
     : "/contacto";
@@ -10,7 +12,7 @@ export default function WhatsAppFAB() {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Escríbenos por WhatsApp"
+      aria-label={locale === "en" ? "Message us on WhatsApp" : "Escríbenos por WhatsApp"}
       className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-white text-black shadow-lg shadow-black/40 transition-transform hover:scale-105"
     >
       <svg

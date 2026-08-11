@@ -8,6 +8,7 @@ import { getReadingTime } from "@/lib/reading-time";
 import { formatPublishedDate } from "@/lib/format-date";
 import { toFaqPageJsonLd } from "@/lib/indexal/faq";
 import RelatedServiceCTA from "@/components/blog/RelatedServiceCTA";
+import { getLocale } from "@/lib/i18n";
 
 type Props = { params: { slug: string } };
 
@@ -52,10 +53,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogPostPage({ params }: Props) {
+  const locale = getLocale();
   const post = await getPost(params.slug);
-  if (!post) notFound();
+  if (!post || !post.language_code?.toLowerCase().startsWith(locale)) notFound();
 
-  const date = formatPublishedDate(post.published_at);
+  const date = formatPublishedDate(post.published_at, locale);
   const minutes = getReadingTime(post.content);
   const faqJsonLd = toFaqPageJsonLd(post.faq_schema);
 
@@ -64,7 +66,7 @@ export default async function BlogPostPage({ params }: Props) {
       <h1 className="text-3xl md:text-5xl">{post.title}</h1>
 
       <p className="mt-6 flex flex-wrap items-center gap-x-2 text-sm text-white/50">
-        <span>Por {post.author}</span>
+        <span>{locale === "en" ? "By" : "Por"} {post.author}</span>
         {date && (
           <>
             <span aria-hidden="true">·</span>
@@ -72,7 +74,7 @@ export default async function BlogPostPage({ params }: Props) {
           </>
         )}
         <span aria-hidden="true">·</span>
-        <span>{minutes} min de lectura</span>
+        <span>{minutes} min {locale === "en" ? "read" : "de lectura"}</span>
       </p>
 
       {/* Indexal marks the hero image as best-effort, so it can be missing;
@@ -81,7 +83,7 @@ export default async function BlogPostPage({ params }: Props) {
         <div className="relative mt-12 aspect-video w-full overflow-hidden bg-charcoal">
           <Image
             src={post.cover_image_url}
-            alt={`Imagen de portada del artículo ${post.title}`}
+            alt={locale === "en" ? `Cover image for ${post.title}` : `Imagen de portada del artículo ${post.title}`}
             fill
             sizes="(min-width: 768px) 768px, 100vw"
             className="object-cover"
@@ -110,7 +112,7 @@ export default async function BlogPostPage({ params }: Props) {
         />
       )}
 
-      <RelatedServiceCTA />
+      <RelatedServiceCTA locale={locale} />
     </article>
   );
 }

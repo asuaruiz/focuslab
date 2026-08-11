@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { CaseStudy } from "@/lib/types";
+import { getLocale } from "@/lib/i18n";
 
 type Props = { params: { slug: string } };
 
@@ -33,6 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function CaseStudyDetailPage({ params }: Props) {
+  const en = getLocale() === "en";
   const caseStudy = await getCaseStudy(params.slug);
   if (!caseStudy) notFound();
 
@@ -53,19 +55,19 @@ export default async function CaseStudyDetailPage({ params }: Props) {
 
       <div className="mt-16 space-y-12 border-t border-white/10 pt-12">
         <section>
-          <h2 className="text-sm text-amber">Contexto</h2>
+          <h2 className="text-sm text-amber">{en ? "Context" : "Contexto"}</h2>
           <p className="mt-4 text-white/80">{caseStudy.client_context}</p>
         </section>
         <section>
-          <h2 className="text-sm text-amber">Conflicto</h2>
+          <h2 className="text-sm text-amber">{en ? "Conflict" : "Conflicto"}</h2>
           <p className="mt-4 text-white/80">{caseStudy.conflict}</p>
         </section>
         <section>
-          <h2 className="text-sm text-amber">Transformación</h2>
+          <h2 className="text-sm text-amber">{en ? "Transformation" : "Transformación"}</h2>
           <p className="mt-4 text-white/80">{caseStudy.transformation}</p>
         </section>
         <section>
-          <h2 className="text-sm text-amber">Resolución</h2>
+          <h2 className="text-sm text-amber">{en ? "Resolution" : "Resolución"}</h2>
           <p className="mt-4 text-white/80">{caseStudy.resolution}</p>
         </section>
       </div>

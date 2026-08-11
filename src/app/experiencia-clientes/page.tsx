@@ -3,6 +3,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import LazyVideo from "@/components/ui/LazyVideo";
 import { createClient } from "@/lib/supabase/server";
 import type { CaseStudy } from "@/lib/types";
+import { getLocale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Experiencia de Clientes — El Lado Humano del Proceso",
@@ -47,6 +48,15 @@ const CLIENT_JOURNEY = [
 ];
 
 export default async function ExperienciaClientesPage() {
+  const en = getLocale() === "en";
+  const journey = en ? [
+    { step: "01", title: "Discovery", description: "We listen before quoting to understand what you want to achieve." },
+    { step: "02", title: "Strategy", description: "We define objectives, timelines, and creative direction." },
+    { step: "03", title: "Production", description: "You walk onto a prepared, calm set. Guiding you is our job." },
+    { step: "04", title: "Post-Production", description: "We edit with one question in mind: does this tell the story better?" },
+    { step: "05", title: "Delivery", description: "Organized files delivered through professional platforms." },
+    { step: "06", title: "Follow-up", description: "We build long-term trust over short-term gain." },
+  ] : CLIENT_JOURNEY;
   const supabase = createClient();
   const { data: testimonials } = await supabase
     .from("focuslab_case_studies")
@@ -59,18 +69,17 @@ export default async function ExperienciaClientesPage() {
     <div className="mx-auto max-w-5xl px-6 py-32 lg:px-12">
       <SectionHeading
         as="h1"
-        eyebrow="Capítulo Seis"
-        title="El Lado Humano del Proceso"
+        eyebrow={en ? "Chapter Six" : "Capítulo Seis"}
+        title={en ? "The Human Side of the Process" : "El Lado Humano del Proceso"}
         quote="People may forget the deliverables. They rarely forget how you made them feel."
       />
 
       <p className="mx-auto mt-8 max-w-2xl text-center">
-        Nuestros clientes nos contratan porque buscan claridad, organización
-        y un proceso libre de estrés.
+        {en ? "Our clients hire us because they value clarity, organization, and a stress-free process." : "Nuestros clientes nos contratan porque buscan claridad, organización y un proceso libre de estrés."}
       </p>
 
       <div className="mt-20 grid gap-px overflow-hidden bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
-        {CLIENT_JOURNEY.map((item) => (
+        {journey.map((item) => (
           <div key={item.step} className="bg-black p-8">
             <span className="font-heading text-2xl text-amber">{item.step}</span>
             <h3 className="mt-4 text-base">{item.title}</h3>

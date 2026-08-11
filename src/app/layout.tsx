@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppFAB from "@/components/ui/WhatsAppFAB";
 import { getSiteUrl } from "@/lib/site";
+import { getLocale } from "@/lib/i18n";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -54,13 +55,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const locale = getLocale();
   return (
-    <html lang="es" className={`${montserrat.variable} ${inter.variable} ${playfair.variable}`}>
+    <html lang={locale} className={`${montserrat.variable} ${inter.variable} ${playfair.variable}`}>
       <body className="bg-black text-white">
-        <Navbar />
+        <Navbar locale={locale} />
         <main>{children}</main>
-        <Footer />
-        <WhatsAppFAB />
+        <Footer locale={locale} />
+        <WhatsAppFAB locale={locale} />
       </body>
     </html>
   );

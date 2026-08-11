@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Button from "@/components/ui/Button";
-import { services, getServiceBySlug } from "@/lib/services";
+import { getServiceBySlug, getLocalizedService } from "@/lib/services";
+import { getLocale } from "@/lib/i18n";
 
 type Props = { params: { slug: string } };
 
-// SSG — pre-render every known service at build time.
-export function generateStaticParams() {
-  return services.map((service) => ({ slug: service.slug }));
-}
+// The selected language is stored in a cookie, so this page must be rendered
+// per request even though the known slugs are predeclared below.
+export const dynamic = "force-dynamic";
 
 export function generateMetadata({ params }: Props): Metadata {
   const service = getServiceBySlug(params.slug);
@@ -22,7 +22,8 @@ export function generateMetadata({ params }: Props): Metadata {
 }
 
 export default function ServicioDetailPage({ params }: Props) {
-  const service = getServiceBySlug(params.slug);
+  const locale = getLocale();
+  const service = getLocalizedService(params.slug, locale);
   if (!service) notFound();
 
   return (
@@ -42,7 +43,7 @@ export default function ServicioDetailPage({ params }: Props) {
       </ul>
 
       <div className="mt-16">
-        <Button href="/contacto">Solicitar Cotización</Button>
+        <Button href="/contacto">{locale === "en" ? "Request a Quote" : "Solicitar Cotización"}</Button>
       </div>
     </div>
   );
