@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Image from "next/image";
-import DOMPurify from "isomorphic-dompurify";
+import sanitizeHtml from "sanitize-html";
 import { createClient } from "@/lib/supabase/server";
 import type { BlogPost } from "@/lib/types";
 import { getReadingTime } from "@/lib/reading-time";
@@ -23,6 +23,22 @@ async function getPost(slug: string) {
     .maybeSingle<BlogPost>();
 
   return data;
+}
+
+async function getTranslatedPostSlug(
+  translationGroupId: string,
+  locale: "es" | "en"
+) {
+  const supabase = createClient();
+  const { data } = await supabase
+    .from("focuslab_blog_posts")
+    .select("slug")
+    .eq("translation_group_id", translationGroupId)
+    .ilike("language_code", `${locale}%`)
+    .not("published_at", "is", null)
+    .maybeSingle<Pick<BlogPost, "slug">>();
+
+  return data?.slug ?? null;
 }
 
 // Google truncates SERP titles around ~60 characters. post.title is written
@@ -55,7 +71,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function BlogPostPage({ params }: Props) {
   const locale = getLocale();
   const post = await getPost(params.slug);
-  if (!post || !post.language_code?.toLowerCase().startsWith(locale)) notFound();
+  if (!post) notFound();
+
+  if (!post.language_code?.toLowerCase().startsWith(locale)) {
+    const translatedSlug = post.translation_group_id
+      ? await getTranslatedPostSlug(post.translation_group_id, locale)
+      : null;
+
+    if (translatedSlug) redirect(`/blog/${translatedSlug}`);
+    notFound();
+  }
 
   const date = formatPublishedDate(post.published_at, locale);
   const minutes = getReadingTime(post.content);
@@ -94,7 +119,7 @@ export default async function BlogPostPage({ params }: Props) {
 
       <div
         className="prose prose-invert prose-lg mt-12 max-w-prose text-white/80"
-        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}
+        dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
       />
 
       {post.author_bio && (
