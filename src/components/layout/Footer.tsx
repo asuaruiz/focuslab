@@ -1,61 +1,29 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
+
+function localized(path: string, locale: Locale) {
+  return locale === "en" ? `/en${path === "/" ? "" : path}` : path;
+}
 
 export default function Footer({ locale }: { locale: Locale }) {
   const en = locale === "en";
   return (
-    <footer className="border-t border-white/10 bg-black">
-      <div className="mx-auto max-w-7xl px-6 py-16 lg:px-12">
-        <Image
-          src="/logo-circle.png"
-          alt="Focus Labs Media Group"
-          width={48}
-          height={48}
-          className="h-12 w-12"
-        />
-
-        <p className="accent-quote mt-8 text-lg">
-          &ldquo;{en ? "We transform imagination into meaningful experiences." : "Transformamos la imaginación en experiencias significativas."}&rdquo;
-        </p>
-
-        <div className="mt-10 flex flex-col gap-6 border-t border-white/10 pt-8 md:flex-row md:items-center md:justify-between">
-          <span className="font-heading text-xs tracking-widest uppercase text-gray">
-            Focus Labs Media Group — Est. 2024
-          </span>
-
-          <nav className="flex flex-wrap gap-6">
-            <Link href="/filosofia" className="text-xs tracking-widest uppercase text-gray hover:text-white">
-              {en ? "Philosophy" : "Filosofía"}
-            </Link>
-            <Link href="/servicios" className="text-xs tracking-widest uppercase text-gray hover:text-white">
-              {en ? "Services" : "Servicios"}
-            </Link>
-            <Link href="/casos-de-estudio" className="text-xs tracking-widest uppercase text-gray hover:text-white">
-              {en ? "Case Studies" : "Casos de Estudio"}
-            </Link>
-            <Link href="/experiencia-clientes" className="text-xs tracking-widest uppercase text-gray hover:text-white">
-              {en ? "Experience" : "Experiencia"}
-            </Link>
-            <Link href="/blog" className="text-xs tracking-widest uppercase text-gray hover:text-white">
-              Blog
-            </Link>
-            <Link href="/contacto" className="text-xs tracking-widest uppercase text-gray hover:text-white">
-              {en ? "Contact" : "Contacto"}
-            </Link>
-          </nav>
-        </div>
-
-        <p className="mt-8 inline-flex items-center gap-1.5 text-xs text-gray">
-          Made with <span aria-hidden="true" className="text-amber">♥</span> by{" "}
-          <a
-            href="https://andflow.cl"
-            rel="dofollow"
-            className="font-semibold text-white/90 underline-offset-4 hover:text-amber hover:underline"
-          >
-            andflow.cl
-          </a>
-        </p>
+    <footer className="site-footer">
+      <div className="footer-statement">
+        <p>{en ? "We give ideas a place to exist." : "Damos a las ideas un lugar para existir."}</p>
+        <Link href={localized("/contact", locale)}>{en ? "Start a conversation" : "Empezar una conversación"} <span aria-hidden="true">↗</span></Link>
+      </div>
+      <div className="footer-grid">
+        <div className="brand-lockup"><span>FOCUS LABS</span><small>MEDIA GROUP</small></div>
+        <nav aria-label={en ? "Secondary navigation" : "Navegación secundaria"}>
+          <Link href={localized("/work", locale)}>{en ? "Work" : "Trabajo"}</Link>
+          <Link href={localized("/services", locale)}>{en ? "Services" : "Servicios"}</Link>
+          <Link href={localized("/the-lab", locale)}>The Lab</Link>
+          <Link href={localized("/about", locale)}>{en ? "About" : "Nosotros"}</Link>
+          <Link href={localized("/academy", locale)}>Academy</Link>
+          <Link href={localized("/blog", locale)}>Notes</Link>
+        </nav>
+        <p className="footer-meta">Orlando, Florida<br />© {new Date().getFullYear()} Focus Labs Media Group</p>
       </div>
     </footer>
   );

@@ -7,6 +7,7 @@ type ContactEmailData = {
   company: string | null;
   projectType: string | null;
   projectDetails: string | null;
+  locale?: "es" | "en";
 };
 
 function escapeHtml(value: string) {
@@ -32,6 +33,7 @@ export async function sendContactEmails(data: ContactEmailData) {
   }
 
   const firstName = escapeHtml(data.name.split(/\s+/)[0] || data.name);
+  const en = data.locale === "en";
   const details = field(data.projectDetails).replaceAll("\n", "<br />");
   const response = await fetch("https://api.resend.com/emails/batch", {
     method: "POST",
@@ -45,14 +47,14 @@ export async function sendContactEmails(data: ContactEmailData) {
         from,
         to: [data.email],
         reply_to: managerEmail,
-        subject: "Recibimos tu solicitud — Focus Labs",
+        subject: en ? "We received your note — Focus Labs" : "Recibimos tu mensaje — Focus Labs",
         html: `
           <div style="background:#0a0a0a;color:#f5f5f5;font-family:Arial,sans-serif;padding:40px 24px">
             <div style="max-width:600px;margin:0 auto">
               <p style="color:#d4a85a;font-size:12px;letter-spacing:2px;text-transform:uppercase">Focus Labs Media Group</p>
-              <h1 style="font-size:28px;font-weight:400">Gracias, ${firstName}.</h1>
-              <p style="color:#c8c8c8;line-height:1.7">Recibimos tu solicitud y nuestro equipo la revisará personalmente. Te responderemos dentro de las próximas 2 horas hábiles.</p>
-              <p style="color:#c8c8c8;line-height:1.7">Mientras tanto, no necesitas hacer nada más. Ya tenemos tu información.</p>
+              <h1 style="font-size:28px;font-weight:400">${en ? "Thank you" : "Gracias"}, ${firstName}.</h1>
+              <p style="color:#c8c8c8;line-height:1.7">${en ? "We received what you shared and will review it personally. We will return with the clearest next step." : "Recibimos lo que compartiste y lo revisaremos personalmente. Te responderemos con el siguiente paso más claro."}</p>
+              <p style="color:#c8c8c8;line-height:1.7">${en ? "You do not need to explain anything else for now. We have a place to begin." : "Por ahora no necesitas explicar nada más. Ya tenemos un lugar para empezar."}</p>
               <p style="margin-top:32px;color:#d4a85a">Focus Labs Media Group</p>
             </div>
           </div>`,
