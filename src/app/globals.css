@@ -113,6 +113,13 @@ button, input, select, textarea { font: inherit; }
 .territory-card p, .service-card p, .process-card p { color: var(--muted); line-height: 1.65; }
 
 .feature-band { background: var(--surface); }
+.experience-section { background: #050505; }
+.experience-disclosure { max-width: 720px; padding-left: 1rem; border-left: 1px solid var(--amber); color: var(--muted); font-size: .82rem; line-height: 1.65; }
+.experience-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: clamp(3rem, 7vw, 6rem); }
+.experience-frame { margin: 0; overflow: hidden; aspect-ratio: 9 / 14; background: var(--surface); border: 1px solid var(--border); }
+.experience-frame:nth-child(even) { transform: translateY(clamp(1.25rem, 3vw, 3rem)); }
+.experience-frame img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease), filter .8s var(--ease); }
+.experience-frame:hover img { transform: scale(1.025); filter: contrast(1.03); }
 .quote-large { max-width: 18ch; margin: 0; font-family: var(--font-montserrat); font-size: clamp(2rem, 5vw, 5.4rem); font-weight: 300; line-height: 1.08; letter-spacing: -.04em; }
 .quote-large em { color: var(--amber); font-style: normal; }
 .feature-pair { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border-top: 1px solid var(--border); }
@@ -154,6 +161,7 @@ button, input, select, textarea { font: inherit; }
   .territory-grid { grid-template-columns: 1fr; }
   .service-grid, .feature-pair { grid-template-columns: 1fr; }
   .process-grid { grid-template-columns: repeat(2, 1fr); }
+  .experience-grid { grid-template-columns: repeat(2, 1fr); }
   .feature-panel { min-height: 55svh; }
   .footer-grid { grid-template-columns: 1fr; }
   .footer-meta { text-align: left; }
@@ -165,6 +173,8 @@ button, input, select, textarea { font: inherit; }
   .page-hero, .section { padding-left: 1.25rem; padding-right: 1.25rem; }
   .section-title, .page-hero .section-title { letter-spacing: -.04em; }
   .process-grid, .form-grid { grid-template-columns: 1fr; }
+  .experience-grid { gap: .75rem; }
+  .experience-frame:nth-child(even) { transform: translateY(1rem); }
   .field-full { grid-column: auto; }
   .territory-card, .service-card, .process-card { min-height: auto; }
   .mobile-menu-actions { align-items: stretch; flex-direction: column; }
