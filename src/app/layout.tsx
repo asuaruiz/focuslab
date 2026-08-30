@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Montserrat, Inter, Playfair_Display } from "next/font/google";
+import { Montserrat, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import WhatsAppFAB from "@/components/ui/WhatsAppFAB";
 import { getSiteUrl } from "@/lib/site";
 import { getLocale } from "@/lib/i18n";
 
@@ -21,28 +20,20 @@ const inter = Inter({
   display: "swap",
 });
 
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  style: ["italic"],
-  weight: ["400"],
-  variable: "--font-playfair",
-  display: "swap",
-});
-
 const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Focus Labs Media Group — Productora Audiovisual Independiente",
+    default: "Focus Labs — Creative Direction, Strategy & Production",
     template: "%s | Focus Labs Media Group",
   },
   description:
-    "Focus Labs Media Group transforma la imaginación en experiencias significativas a través de fotografía, video cinematográfico y estrategia de marca.",
+    "Focus Labs transforma imaginación en experiencias significativas a través de narrativa, estrategia, dirección creativa y producción.",
   openGraph: {
     type: "website",
     siteName: "Focus Labs Media Group",
-    locale: "es",
+    locale: "es_US",
     url: siteUrl,
   },
   twitter: {
@@ -57,12 +48,12 @@ export default function RootLayout({
 }) {
   const locale = getLocale();
   return (
-    <html lang={locale} className={`${montserrat.variable} ${inter.variable} ${playfair.variable}`}>
+    <html lang={locale} className={`${montserrat.variable} ${inter.variable}`}>
       <body className="bg-black text-white">
+        <a className="skip-link" href="#main-content">{locale === "en" ? "Skip to content" : "Saltar al contenido"}</a>
         <Navbar locale={locale} />
-        <main>{children}</main>
+        <main id="main-content">{children}</main>
         <Footer locale={locale} />
-        <WhatsAppFAB locale={locale} />
       </body>
     </html>
   );

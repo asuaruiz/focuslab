@@ -1,108 +1,147 @@
 import type { Metadata } from "next";
-import HeroSection from "@/components/home/HeroSection";
-import SectionHeading from "@/components/ui/SectionHeading";
-import Button from "@/components/ui/Button";
-import { getLocale } from "@/lib/i18n";
+import { getLocale, type Locale } from "@/lib/i18n";
+import { pageMetadata } from "@/lib/metadata";
+import { serviceDirections } from "@/lib/content";
+import { AmberMark, ArrowLink, Eyebrow, SectionTitle } from "@/components/v2/Primitives";
+import TrackedLink from "@/components/analytics/TrackedLink";
 
-export const metadata: Metadata = {
-  title: "Focus Labs Media Group — Productora Audiovisual de Autor",
-  description:
-    "Fotografía, cine y estrategia de marca con la calma de una autoridad operativa. Focus Labs Media Group transforma la imaginación en experiencias significativas.",
-  alternates: { canonical: "/" },
-};
+function pathFor(path: string, locale: Locale) {
+  return locale === "en" ? `/en${path === "/" ? "" : path}` : path;
+}
+
+export function generateMetadata(): Metadata {
+  const locale = getLocale();
+  return pageMetadata({
+    path: "/",
+    locale,
+    title: locale === "en" ? "Focus Labs — Creative Direction, Strategy & Production" : "Focus Labs — Dirección Creativa, Estrategia y Producción",
+    description: locale === "en"
+      ? "We give ideas a place to exist through narrative, strategy, creative direction and production."
+      : "Damos a las ideas un lugar para existir a través de narrativa, estrategia, dirección creativa y producción.",
+  });
+}
 
 export default function HomePage() {
   const locale = getLocale();
   const en = locale === "en";
+  const services = serviceDirections.slice(0, 3);
+
   return (
     <>
-      <HeroSection locale={locale} />
-
-      <section className="mx-auto max-w-4xl px-6 py-24 lg:px-12">
-        <SectionHeading title={en ? "Strategic Certainty in a Noisy Industry" : "Certeza Estratégica en una Industria Ruidosa"} />
-
-        <div className="mt-10 space-y-6">
-          <p className="text-center">
-            {en ? "In a market crowded with technical operators and high-volume content creators, we occupy the space of Strategic Certainty. We close the gap between your creative vision and execution, removing friction and building operational trust." : "En un mercado saturado de operadores técnicos y creadores de contenido de alto volumen, nosotros ocupamos el espacio de la Certeza Estratégica. Cerramos la brecha entre tu visión creativa y la ejecución, eliminando la fricción y construyendo confianza operativa."}
+      <section className="hero">
+        <div className="hero-content">
+          <Eyebrow>Focus Labs Media Group</Eyebrow>
+          <h1>{en ? "We transform imagination into meaningful experiences." : "Transformamos la imaginación en experiencias significativas."}</h1>
+          <p className="hero-copy">
+            {en
+              ? "We give ideas a place to exist. Through narrative, strategy and craft, we turn a clear vision—or one still taking shape—into something people can see, feel and remember."
+              : "Damos a las ideas un lugar para existir. Unimos narrativa, estrategia y oficio para convertir una visión —clara o todavía incompleta— en algo que las personas puedan ver, sentir y recordar."}
           </p>
-          <p className="text-center">
-            {en ? "We are not a content factory, and we do not chase reactive trends. We are your high-end production studio and visual identity partner." : "No somos una fábrica de contenido ni perseguimos tendencias reactivas. Somos tu estudio de producción de alta gama y desarrolladores de identidad visual."}
-          </p>
-
-          <div className="mt-12 border-t border-white/10 pt-8">
-            <p className="text-sm text-amber">{en ? "What does Strategic Certainty mean?" : "¿Qué significa Certeza Estratégica?"}</p>
-            <p className="mt-4 text-white/80">
-              {en ? "It is the difference between a videographer who executes your idea and a producer who helps you think. It means knowing exactly what you are communicating, why it matters, and how your audience will receive it. When you arrive on set, there are no surprises: there is a clear plan, a prepared team, and confidence in the result." : "Es la diferencia entre un videógrafo que ejecuta tu idea y un productor que te ayuda a pensar. Es saber exactamente qué estás comunicando, por qué importa, y cómo tu audiencia lo recibirá. Significa que cuando llegas al set, no hay sorpresas ni improvisación. Hay un plan claro, un equipo preparado, y la confianza de que el resultado será exactamente lo que imaginaste (o mejor)."}
-            </p>
+          <div className="hero-actions">
+            <TrackedLink href={pathFor("/contact", locale)} event="start_project_click" className="button-primary">
+              {en ? "Start a project" : "Iniciar un proyecto"} <span aria-hidden="true">↗</span>
+            </TrackedLink>
+            <TrackedLink href={pathFor("/work", locale)} event="view_work" className="text-link">
+              {en ? "View the work" : "Ver el trabajo"} <span aria-hidden="true">↗</span>
+            </TrackedLink>
           </div>
         </div>
       </section>
 
-      <section className="border-t border-white/10 bg-charcoal">
-        <div className="mx-auto max-w-4xl px-6 py-24 lg:px-12">
-          <SectionHeading title={en ? "Videographer or Strategic Producer?" : "¿Videógrafo o Productor Estratégico?"} />
-
-          <div className="mt-12 grid gap-8 sm:grid-cols-2">
-            <div className="space-y-3">
-              <p className="text-sm font-medium text-gray">{en ? "The Videographer" : "El Videógrafo"}</p>
-              <ul className="space-y-2 text-sm text-white/70">
-                <li>• {en ? "Executes what you ask" : "Ejecuta lo que le dices"}</li>
-                <li>• {en ? "Focuses on the technical" : "Se enfoca en lo técnico"}</li>
-                <li>• {en ? "Is predictable, but not distinctive" : "Es predecible pero no diferencia"}</li>
-                <li>• {en ? "Delivers a beautiful video" : "Entrega un video bonito"}</li>
-              </ul>
-            </div>
-
-            <div className="space-y-3">
-              <p className="text-sm font-medium text-amber">Focus Labs</p>
-              <ul className="space-y-2 text-sm text-white/70">
-                <li>• {en ? "Helps shape the vision" : "Ayuda a crear la visión"}</li>
-                <li>• {en ? "Understands your business and audience" : "Entiende tu negocio y audiencia"}</li>
-                <li>• {en ? "Creates real business results" : "Genera resultados comerciales reales"}</li>
-                <li>• {en ? "Delivers a growth asset" : "Entrega una herramienta de crecimiento"}</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-4xl px-6 py-24 lg:px-12">
-        <div className="space-y-8">
+      <section className="section">
+        <div className="split">
+          <div className="page-kicker"><AmberMark /><Eyebrow>{en ? "Selected work" : "Trabajo seleccionado"}</Eyebrow></div>
           <div>
-            <h2 className="text-2xl">{en ? "Our Most Important Deliverable Is Trust" : "Nuestro Principal Entregable es la Confianza"}</h2>
-            <p className="mt-6 text-white/80">
-              {en ? "Great work does not begin with a camera; it begins with intention. Behind every project is someone trusting us with something personal: their dream, business, or legacy." : "El gran trabajo no comienza con una cámara; comienza con intención. Detrás de cada proyecto hay alguien confiándonos algo personal: su sueño, su negocio o su legado."}
-            </p>
-            <p className="mt-4 text-white/80">
-              {en ? "We draw out authentic performances by creating a controlled, high-trust environment. We work with discipline, preparation, and clarity. Clients receive more than an extraordinary film; they receive an experience they are proud of." : "Extraemos actuaciones auténticas que no pueden ser forzadas mediante la creación de un entorno controlado y de alta confianza. Trabajamos con disciplina, preparación y claridad. El resultado es que los clientes no solo obtienen un video extraordinario; obtienen una experiencia de la que se sienten orgullosos."}
-            </p>
-          </div>
-
-          <div className="border-t border-white/10 pt-8">
-            <p className="text-sm text-amber">{en ? "How We Build Trust" : "Cómo Construimos Confianza"}</p>
-            <div className="mt-6 space-y-4 text-sm text-white/80">
-              <p><strong>{en ? "1. We Listen First" : "1. Escuchamos Primero"}</strong> — {en ? "We understand your real objective; we do not assume." : "Entendemos tu objetivo real, no asumimos."}</p>
-              <p><strong>{en ? "2. We Plan Together" : "2. Planificamos Juntos"}</strong> — {en ? "You define the vision; we make it achievable." : "Defines la visión, nosotros la aseguramos."}</p>
-              <p><strong>{en ? "3. We Execute Seamlessly" : "3. Ejecutamos sin Fricción"}</strong> — {en ? "Everything is ready; nothing feels chaotic." : "Todo está listo, nada es caótico."}</p>
-              <p><strong>{en ? "4. We Deliver with Pride" : "4. Entregamos con Orgullo"}</strong> — {en ? "It is not just a video; it is an asset." : "No es ‘un video’, es un activo."}</p>
-            </div>
+            <SectionTitle>{en ? "Let the work speak first." : "El trabajo habla primero."}</SectionTitle>
+            <p className="lede mt-8">{en ? "A selection of ideas made real." : "Una selección de ideas convertidas en experiencias reales."}</p>
           </div>
         </div>
-      </section>
-
-      <section className="border-t border-white/10 bg-charcoal">
-        <div className="mx-auto max-w-4xl px-6 py-24 lg:px-12">
-          <p className="text-center text-sm text-amber">{en ? "Next Step" : "Próximo Paso"}</p>
-          <p className="mt-6 text-center text-white/80">
-            {en ? "Have a project in mind? We can help you define the right strategy for your brand." : "¿Tienes un proyecto en mente? Podemos ayudarte a definir la estrategia correcta para tu marca."}
+        <div className="work-grid">
+          <div className="work-placeholder">
+            <p>{en ? "Real work is being curated with its credits and context intact." : "El trabajo real está siendo curado con sus créditos y contexto intactos."}</p>
+          </div>
+          <p className="evidence-note">
+            {en
+              ? "We would rather show less, truthfully, than turn someone else’s work into our claim."
+              : "Preferimos mostrar menos, con verdad, que convertir el trabajo de alguien más en una afirmación nuestra."}
           </p>
         </div>
+        <div className="mt-8"><ArrowLink href={pathFor("/work", locale)}>{en ? "Explore work" : "Explorar trabajo"}</ArrowLink></div>
       </section>
 
-      <section className="mx-auto flex max-w-5xl flex-col items-center gap-4 px-6 py-24 text-center lg:px-12">
-        <Button href="/servicios">{en ? "Explore Services" : "Explorar Servicios"}</Button>
-        <Button href="/filosofia" variant="outline">{en ? "Our Philosophy" : "Conocer Nuestra Filosofía"}</Button>
-        <Button href="/contacto" variant="outline">{en ? "Contact Us" : "Contactar"}</Button>
+      <section className="section feature-band">
+        <div className="split">
+          <Eyebrow>{en ? "What is Focus Labs?" : "¿Qué es Focus Labs?"}</Eyebrow>
+          <div>
+            <SectionTitle>{en ? "Direction for ideas. Room for possibility." : "Dirección para las ideas. Espacio para lo posible."}</SectionTitle>
+            <p className="lede mt-8">
+              {en
+                ? "Focus brings clarity. Labs makes room to explore. Together, we are a creative partner for people and brands building something genuine, useful and memorable."
+                : "Focus aporta claridad. Labs abre la puerta a explorar. Juntos, somos un socio creativo para personas y marcas que quieren construir algo genuino, útil y memorable."}
+            </p>
+          </div>
+        </div>
+        <div className="territory-grid">
+          {services.map((service, index) => {
+            const copy = service[locale];
+            return <article className="territory-card" key={service.slug}><span className="card-number">0{index + 1}</span><h3>{copy.title}</h3><p>{copy.summary}</p></article>;
+          })}
+        </div>
+        <div className="mt-8"><TrackedLink href={pathFor("/services", locale)} event="view_services" className="text-link">{en ? "Explore services" : "Explorar servicios"} <span aria-hidden="true">↗</span></TrackedLink></div>
+      </section>
+
+      <section className="section">
+        <div className="split">
+          <Eyebrow>{en ? "How we think + work" : "Cómo pensamos + trabajamos"}</Eyebrow>
+          <div>
+            <SectionTitle>{en ? "Certainty without pretending to have every answer." : "Certeza sin pretender tener todas las respuestas."}</SectionTitle>
+            <p className="lede mt-8">
+              {en
+                ? "We ask. We listen. We explore. We build. Clarity does not come from guessing; it comes from studying, preparing, testing and explaining the choices we make."
+                : "Preguntamos. Escuchamos. Exploramos. Construimos. La claridad no viene de adivinar; viene de estudiar, preparar, probar y explicar las decisiones."}
+            </p>
+            <p className="section-copy mt-8">{en ? "Every interaction should create clarity, confidence or meaningful progress." : "Cada interacción debe crear claridad, confianza o progreso significativo."}</p>
+          </div>
+        </div>
+      </section>
+
+      <div className="feature-pair">
+        <section className="feature-panel">
+          <div><Eyebrow>The Lab</Eyebrow><SectionTitle>{en ? "What if we test it?" : "¿Y si lo probamos?"}</SectionTitle></div>
+          <div>
+            <p className="section-copy">{en ? "A question can become an experiment, an idea a discovery, and every result the next question." : "Una pregunta puede convertirse en experimento, una idea en descubrimiento y un resultado en la siguiente pregunta."}</p>
+            <div className="mt-8"><TrackedLink href={pathFor("/the-lab", locale)} event="explore_the_lab" className="text-link">{en ? "Enter The Lab" : "Entrar a The Lab"} <span aria-hidden="true">↗</span></TrackedLink></div>
+          </div>
+        </section>
+        <section className="feature-panel">
+          <div><Eyebrow>Academy</Eyebrow><SectionTitle>{en ? "Learning is part of the universe, too." : "Aprender también es parte del universo."}</SectionTitle></div>
+          <div>
+            <p className="section-copy">{en ? "Focus Labs Academy is our future learning extension. It is being developed with intention." : "Focus Labs Academy es nuestra futura extensión educativa. Está en desarrollo, con intención."}</p>
+            <div className="mt-8"><TrackedLink href={pathFor("/academy", locale)} event="academy_interest" className="text-link">{en ? "Meet Academy" : "Conocer Academy"} <span aria-hidden="true">↗</span></TrackedLink></div>
+          </div>
+        </section>
+      </div>
+
+      <section className="section">
+        <div className="split">
+          <Eyebrow>{en ? "Human origin" : "Origen humano"}</Eyebrow>
+          <div>
+            <SectionTitle>{en ? "Built from a human point of view." : "Construido desde un punto de vista humano."}</SectionTitle>
+            <p className="lede mt-8">
+              {en
+                ? "Omar is the first human expression of Focus Labs: someone who asks, guides and lowers the pressure so people can give their best. Focus Labs is the system designed to carry that way of creating beyond one person."
+                : "Omar es la primera expresión humana de Focus Labs: alguien que pregunta, guía y ayuda a bajar la presión para que las personas puedan dar su mejor versión. Focus Labs es el sistema diseñado para llevar esa forma de crear más allá de una sola persona."}
+            </p>
+            <div className="mt-8"><ArrowLink href={pathFor("/about", locale)}>{en ? "Meet Focus Labs" : "Conocer Focus Labs"}</ArrowLink></div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section invitation">
+        <Eyebrow>{en ? "Start somewhere" : "Empezar en algún lugar"}</Eyebrow>
+        <SectionTitle>{en ? "Your idea does not have to arrive finished." : "Tu idea no tiene que llegar terminada."}</SectionTitle>
+        <p className="lede mt-8">{en ? "It can begin as a question, a problem, an opportunity or something hard to explain. Let’s start by understanding it." : "Puede llegar como una pregunta, un problema, una oportunidad o algo difícil de explicar. Empecemos por entenderlo."}</p>
+        <div className="mt-8"><TrackedLink href={pathFor("/contact", locale)} event="start_project_click" className="button-primary">{en ? "Start a project" : "Iniciar un proyecto"} <span aria-hidden="true">↗</span></TrackedLink></div>
       </section>
     </>
   );
