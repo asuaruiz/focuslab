@@ -1,148 +1,18 @@
 import type { Metadata } from "next";
-import { getLocale, type Locale } from "@/lib/i18n";
-import { pageMetadata } from "@/lib/metadata";
-import { serviceDirections } from "@/lib/content";
-import { AmberMark, ArrowLink, Eyebrow, SectionTitle } from "@/components/v2/Primitives";
-import TrackedLink from "@/components/analytics/TrackedLink";
+import Image from "next/image";
+import Link from "next/link";
+import AnimatedPortal from "@/components/home/AnimatedPortal";
 
-function pathFor(path: string, locale: Locale) {
-  return locale === "en" ? `/en${path === "/" ? "" : path}` : path;
-}
-
-export function generateMetadata(): Metadata {
-  const locale = getLocale();
-  return pageMetadata({
-    path: "/",
-    locale,
-    title: locale === "en" ? "Focus Labs — Creative Direction, Strategy & Production" : "Focus Labs — Dirección Creativa, Estrategia y Producción",
-    description: locale === "en"
-      ? "We give ideas a place to exist through narrative, strategy, creative direction and production."
-      : "Damos a las ideas un lugar para existir a través de narrativa, estrategia, dirección creativa y producción.",
-  });
-}
+export const metadata: Metadata = { title: "Focus Labs Media Group", description: "Ideas deserve a place to exist." };
+const features = [["▣", "Plan a project", "Turn ideas into clear steps."], ["□", "Shape a message", "Find the right words faster."], ["⌘", "Compare options", "See possibilities more clearly."]] as const;
+const memberships = [["♙", "Free entry", "Start exploring.", false], ["ϟ", "Focus One", "More capacity for your work.", false], ["▤", "One + Academy", "Work and learning.", true], ["◇", "Full ecosystem", "Broader access.", true]] as const;
 
 export default function HomePage() {
-  const locale = getLocale();
-  const en = locale === "en";
-  const services = serviceDirections.slice(0, 3);
-
-  return (
-    <>
-      <section className="hero">
-        <div className="hero-content">
-          <Eyebrow>Focus Labs Media Group</Eyebrow>
-          <h1>{en ? "We transform imagination into meaningful experiences." : "Transformamos la imaginación en experiencias significativas."}</h1>
-          <p className="hero-copy">
-            {en
-              ? "We give ideas a place to exist. Through narrative, strategy and craft, we turn a clear vision—or one still taking shape—into something people can see, feel and remember."
-              : "Damos a las ideas un lugar para existir. Unimos narrativa, estrategia y oficio para convertir una visión —clara o todavía incompleta— en algo que las personas puedan ver, sentir y recordar."}
-          </p>
-          <div className="hero-actions">
-            <TrackedLink href={pathFor("/contact", locale)} event="start_project_click" className="button-primary">
-              {en ? "Start a project" : "Iniciar un proyecto"} <span aria-hidden="true">↗</span>
-            </TrackedLink>
-            <TrackedLink href={pathFor("/work", locale)} event="view_work" className="text-link">
-              {en ? "View the work" : "Ver el trabajo"} <span aria-hidden="true">↗</span>
-            </TrackedLink>
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="split">
-          <div className="page-kicker"><AmberMark /><Eyebrow>{en ? "Selected work" : "Trabajo seleccionado"}</Eyebrow></div>
-          <div>
-            <SectionTitle>{en ? "Let the work speak first." : "El trabajo habla primero."}</SectionTitle>
-            <p className="lede mt-8">{en ? "A selection of ideas made real." : "Una selección de ideas convertidas en experiencias reales."}</p>
-          </div>
-        </div>
-        <div className="work-grid">
-          <div className="work-placeholder">
-            <p>{en ? "Real work is being curated with its credits and context intact." : "El trabajo real está siendo curado con sus créditos y contexto intactos."}</p>
-          </div>
-          <p className="evidence-note">
-            {en
-              ? "We would rather show less, truthfully, than turn someone else’s work into our claim."
-              : "Preferimos mostrar menos, con verdad, que convertir el trabajo de alguien más en una afirmación nuestra."}
-          </p>
-        </div>
-        <div className="mt-8"><ArrowLink href={pathFor("/work", locale)}>{en ? "Explore work" : "Explorar trabajo"}</ArrowLink></div>
-      </section>
-
-      <section className="section feature-band">
-        <div className="split">
-          <Eyebrow>{en ? "What is Focus Labs?" : "¿Qué es Focus Labs?"}</Eyebrow>
-          <div>
-            <SectionTitle>{en ? "Direction for ideas. Room for possibility." : "Dirección para las ideas. Espacio para lo posible."}</SectionTitle>
-            <p className="lede mt-8">
-              {en
-                ? "Focus brings clarity. Labs makes room to explore. Together, we are a creative partner for people and brands building something genuine, useful and memorable."
-                : "Focus aporta claridad. Labs abre la puerta a explorar. Juntos, somos un socio creativo para personas y marcas que quieren construir algo genuino, útil y memorable."}
-            </p>
-          </div>
-        </div>
-        <div className="territory-grid">
-          {services.map((service, index) => {
-            const copy = service[locale];
-            return <article className="territory-card" key={service.slug}><span className="card-number">0{index + 1}</span><h3>{copy.title}</h3><p>{copy.summary}</p></article>;
-          })}
-        </div>
-        <div className="mt-8"><TrackedLink href={pathFor("/services", locale)} event="view_services" className="text-link">{en ? "Explore services" : "Explorar servicios"} <span aria-hidden="true">↗</span></TrackedLink></div>
-      </section>
-
-      <section className="section">
-        <div className="split">
-          <Eyebrow>{en ? "How we think + work" : "Cómo pensamos + trabajamos"}</Eyebrow>
-          <div>
-            <SectionTitle>{en ? "Certainty without pretending to have every answer." : "Certeza sin pretender tener todas las respuestas."}</SectionTitle>
-            <p className="lede mt-8">
-              {en
-                ? "We ask. We listen. We explore. We build. Clarity does not come from guessing; it comes from studying, preparing, testing and explaining the choices we make."
-                : "Preguntamos. Escuchamos. Exploramos. Construimos. La claridad no viene de adivinar; viene de estudiar, preparar, probar y explicar las decisiones."}
-            </p>
-            <p className="section-copy mt-8">{en ? "Every interaction should create clarity, confidence or meaningful progress." : "Cada interacción debe crear claridad, confianza o progreso significativo."}</p>
-          </div>
-        </div>
-      </section>
-
-      <div className="feature-pair">
-        <section className="feature-panel">
-          <div><Eyebrow>The Lab</Eyebrow><SectionTitle>{en ? "What if we test it?" : "¿Y si lo probamos?"}</SectionTitle></div>
-          <div>
-            <p className="section-copy">{en ? "A question can become an experiment, an idea a discovery, and every result the next question." : "Una pregunta puede convertirse en experimento, una idea en descubrimiento y un resultado en la siguiente pregunta."}</p>
-            <div className="mt-8"><TrackedLink href={pathFor("/the-lab", locale)} event="explore_the_lab" className="text-link">{en ? "Enter The Lab" : "Entrar a The Lab"} <span aria-hidden="true">↗</span></TrackedLink></div>
-          </div>
-        </section>
-        <section className="feature-panel">
-          <div><Eyebrow>Academy</Eyebrow><SectionTitle>{en ? "Learning is part of the universe, too." : "Aprender también es parte del universo."}</SectionTitle></div>
-          <div>
-            <p className="section-copy">{en ? "Focus Labs Academy is our future learning extension. It is being developed with intention." : "Focus Labs Academy es nuestra futura extensión educativa. Está en desarrollo, con intención."}</p>
-            <div className="mt-8"><TrackedLink href={pathFor("/academy", locale)} event="academy_interest" className="text-link">{en ? "Meet Academy" : "Conocer Academy"} <span aria-hidden="true">↗</span></TrackedLink></div>
-          </div>
-        </section>
-      </div>
-
-      <section className="section">
-        <div className="split">
-          <Eyebrow>{en ? "Human origin" : "Origen humano"}</Eyebrow>
-          <div>
-            <SectionTitle>{en ? "Built from a human point of view." : "Construido desde un punto de vista humano."}</SectionTitle>
-            <p className="lede mt-8">
-              {en
-                ? "Omar is the first human expression of Focus Labs: someone who asks, guides and lowers the pressure so people can give their best. Focus Labs is the system designed to carry that way of creating beyond one person."
-                : "Omar es la primera expresión humana de Focus Labs: alguien que pregunta, guía y ayuda a bajar la presión para que las personas puedan dar su mejor versión. Focus Labs es el sistema diseñado para llevar esa forma de crear más allá de una sola persona."}
-            </p>
-            <div className="mt-8"><ArrowLink href={pathFor("/about", locale)}>{en ? "Meet Focus Labs" : "Conocer Focus Labs"}</ArrowLink></div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section invitation">
-        <Eyebrow>{en ? "Start somewhere" : "Empezar en algún lugar"}</Eyebrow>
-        <SectionTitle>{en ? "Your idea does not have to arrive finished." : "Tu idea no tiene que llegar terminada."}</SectionTitle>
-        <p className="lede mt-8">{en ? "It can begin as a question, a problem, an opportunity or something hard to explain. Let’s start by understanding it." : "Puede llegar como una pregunta, un problema, una oportunidad o algo difícil de explicar. Empecemos por entenderlo."}</p>
-        <div className="mt-8"><TrackedLink href={pathFor("/contact", locale)} event="start_project_click" className="button-primary">{en ? "Start a project" : "Iniciar un proyecto"} <span aria-hidden="true">↗</span></TrackedLink></div>
-      </section>
-    </>
-  );
+  return <div className="stitch-home">
+    <section className="stitch-hero"><div className="stitch-container stitch-hero-grid"><div className="stitch-hero-copy"><span className="stitch-kicker">Focus Labs Media Group</span><h1>Ideas deserve<br />a place to exist.</h1><p>We turn ideas into stories, useful tools, and experiences — with intention.</p><Link className="stitch-btn stitch-btn-primary" href="/one">Discover Focus One <span>→</span></Link></div><AnimatedPortal /></div></section>
+    <section className="stitch-section stitch-section-raised"><div className="stitch-container stitch-one-grid"><div className="stitch-one-intro"><div><span className="stitch-kicker">Make · Learn · Explore</span><h2 className="stitch-display">Focus One</h2><h3>Less scattered thinking. A clearer next move.</h3><p>Bring an idea, a project, or a decision. Shape it into a plan, a draft, or a direction you can use.</p></div><Link className="stitch-btn stitch-btn-primary" href="/one">See what you can do <span>→</span></Link></div><div className="stitch-one-content"><div className="stitch-feature-list">{features.map(([icon,title,copy])=><article className="stitch-feature" key={title}><i>{icon}</i><div><strong>{title}</strong><p>{copy}</p></div></article>)}</div><div className="stitch-initiative-grid"><article className="stitch-initiative"><span className="stitch-kicker">Two</span><h3>The Academy</h3><p>Learn by doing. Build real capability.</p><small>Coming soon</small><Link href="/academy">Discover Academy →</Link></article><article className="stitch-initiative"><span className="stitch-kicker">Three</span><h3>The Labs</h3><p>See how ideas become real.</p><Link href="/the-labs">Explore the process →</Link></article></div></div></div></section>
+    <section className="stitch-section stitch-proof"><div className="stitch-container stitch-proof-grid"><div className="stitch-proof-copy"><h2>Built from real work.</h2><p>Focus Labs grew from a way of working: understand first, create with care, improve through practice.</p><small>Professional work by Omar Rincones through Nika Media.</small></div><div className="stitch-work-grid"><figure><Image src="/media/professional-experience/city-kia-production-b01-19.webp" fill sizes="(max-width:700px) 100vw,26vw" alt="City Kia commercial production"/><figcaption><strong>City Kia</strong><span>Commercial production</span></figcaption></figure><figure><Image src="/media/professional-experience/city-kia-production-b01-15.webp" fill sizes="(max-width:700px) 100vw,26vw" alt="Miss City Kia production"/><figcaption><strong>Miss City Kia</strong><span>Production on location</span></figcaption></figure></div></div></section>
+    <section className="stitch-section stitch-section-raised"><div className="stitch-container"><span className="stitch-kicker">Memberships</span><h2 className="stitch-section-title">Start with One. Grow with the ecosystem.</h2><div className="stitch-memberships">{memberships.map(([icon,title,copy,planned])=><article key={title}><div className="stitch-card-top"><i>{icon}</i>{planned&&<small>Planned</small>}</div><div><h3>{title}</h3><p>{copy}</p></div></article>)}</div><p className="stitch-note">Membership direction — availability and details to be announced.</p></div></section>
+    <section className="stitch-cta"><div className="stitch-cta-image"/><div className="stitch-container stitch-cta-content"><h2>Have an idea worth building?</h2><h3>There’s a place to start.</h3><div><Link className="stitch-btn stitch-btn-primary" href="/one">Open Focus One <span>→</span></Link><a className="stitch-btn stitch-btn-ghost" href="mailto:hello@focuslabsmediagroup.com">Contact Focus Labs</a></div></div></section>
+  </div>;
 }

@@ -1,22 +1,4 @@
-import type { Metadata } from "next";
-import { getLocale } from "@/lib/i18n";
-import { pageMetadata } from "@/lib/metadata";
-import { ArrowLink, PageHero } from "@/components/v2/Primitives";
-
-export function generateMetadata(): Metadata {
-  const locale = getLocale();
-  return pageMetadata({ path: "/academy", locale, title: "Focus Labs Academy — Learning Extension in Development", description: locale === "en" ? "A future learning extension of Focus Labs, currently in development." : "Una futura extensión educativa de Focus Labs, actualmente en desarrollo." });
-}
-
-export default function AcademyPage() {
-  const locale = getLocale();
-  const en = locale === "en";
-  return (
-    <>
-      <PageHero eyebrow="Focus Labs Academy" title={en ? "Learning to see can change what we are able to create." : "Aprender a ver también cambia lo que podemos crear."} intro={en ? "Focus Labs Academy is an educational extension in development. It will share judgment, process and tools without turning knowledge into hierarchy." : "Focus Labs Academy es una extensión educativa en desarrollo. Nacerá para compartir criterio, procesos y herramientas sin convertir el conocimiento en jerarquía."} />
-      <section className="section feature-band">
-        <div className="split"><p className="eyebrow">{en ? "Current state" : "Estado actual"}</p><div><p className="quote-large">{en ? <>In development. <em>With intention.</em></> : <>En desarrollo. <em>Con intención.</em></>}</p><p className="section-copy mt-8">{en ? "There is no fake course catalog here. The first offering will appear when its promise, material and delivery are real." : "Aquí no hay un catálogo ficticio. La primera oferta aparecerá cuando su promesa, material y entrega sean reales."}</p><div className="mt-8"><ArrowLink href={en ? "/en/contact" : "/contact"}>{en ? "Talk with Focus Labs" : "Hablar con Focus Labs"}</ArrowLink></div></div></div>
-      </section>
-    </>
-  );
-}
+import Image from "next/image";
+const moves=[["▤","Learn","Understand the idea and why it works."],["ϟ","Apply","Use it in real work."],["□","Ask","Talk it through by text or voice."],["▣","Review My Work","Find what to improve next."],["△","Practice","Try, compare, and improve."],["◎","Challenge Me","Test your reasoning in a new situation."]] as const;
+export const metadata={title:"The Academy — Focus Labs Media Group"};
+export default function AcademyPage(){return <div className="product-page academy-page"><section className="academy-hero stitch-container"><div><span className="stitch-kicker">Two</span><b className="coming">Coming soon · under construction</b><span className="stitch-kicker">The Academy</span><h1>Don’t just learn it.<br/>Learn to use it.</h1><p>Practice, ask questions, and get feedback — so what you learn changes what you can do.</p><a className="stitch-btn stitch-btn-ghost" href="#learning">See how learning works ↓</a></div><div className="academy-concept"><span className="stitch-kicker">Experience concept</span><h3>One scene. One change.<br/>What do you notice?</h3><div><figure><Image src="/media/professional-experience/city-kia-production-b01-13.webp" fill alt="Light study state A"/></figure><figure><Image src="/media/professional-experience/city-kia-production-b01-20.webp" fill alt="Light study state B"/></figure></div><footer><span>◉<small>Observe</small></span><span>△<small>Test</small></span><span>□<small>Explain</small></span></footer></div></section><section className="academy-moves" id="learning"><div className="stitch-container"><h2>Six ways to move forward.</h2><div>{moves.map(([i,t,p])=><article key={t}><i>{i}</i><span><strong>{t}</strong><small>{p}</small></span></article>)}</div></div></section><section className="academy-progress"><div className="stitch-container"><div><h2>Your progress<br/>is what you can do.</h2><p>The experience adapts to your starting point, with exercises and feedback that help you move forward.</p><div className="steps"><span><b>1</b>Understand</span><span><b>2</b>Make</span><span><b>3</b>Show it</span></div></div><figure><Image src="/media/professional-experience/city-kia-production-b01-20.webp" fill alt="Academy observation exercise"/></figure></div></section><section className="academy-building stitch-container"><h2>What we’re building.</h2><div className="build-row"><article>▣ <span><b>60-Second Scene Reading Lab</b><small>A pilot for observation and reasoning.</small></span></article><article>▤ <span><b>Read the Scene</b><small>An introduction concept based on experiments and decisions.</small></span></article></div><div className="build-row small"><article>↔ <span><b>Bring your work into your learning.</b><small>With your permission, work from Focus One could become context for practice and feedback.</small></span></article><article>♟ <span><b>Academy is planned as part of future work + learning memberships.</b></span></article></div><aside><div><h3>Learning worth putting to work.</h3><p>Follow the making of The Academy.</p></div><a className="stitch-btn stitch-btn-primary" href="/the-labs">Follow Academy in The Labs →</a></aside></section></div>}

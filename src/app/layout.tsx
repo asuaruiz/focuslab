@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { Montserrat, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { getSiteUrl } from "@/lib/site";
 import { getLocale } from "@/lib/i18n";
 
-const montserrat = Montserrat({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  variable: "--font-montserrat",
+  weight: ["500", "600", "700", "800"],
+  variable: "--font-jakarta",
   display: "swap",
 });
 
@@ -48,7 +48,7 @@ export default function RootLayout({
 }) {
   const locale = getLocale();
   return (
-    <html lang={locale} className={`${montserrat.variable} ${inter.variable}`}>
+    <html lang={locale} className={`${jakarta.variable} ${inter.variable}`}>
       <body className="bg-black text-white">
         <a className="skip-link" href="#main-content">{locale === "en" ? "Skip to content" : "Saltar al contenido"}</a>
         <Navbar locale={locale} />
